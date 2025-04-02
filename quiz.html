@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Career Quiz - PathFinder</title>
+    <link rel="stylesheet" href="quiz.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+</head>
+<body>
+    <div class="quiz-wrapper">
+        <div class="container">
+            <div id="landing-page" class="section active">
+                <h1>Discover Your Ideal Career Path</h1>
+                <p>Take our comprehensive quiz to identify your strengths, interests, and personality traits that match with potential career paths.</p>
+                <button id="get-started" class="btn btn-primary">Get Started</button>
+            </div>
+
+            <div id="quiz-container" class="section">
+                <div class="progress-container">
+                    <div class="progress-bar">
+                        <div id="progress" class="progress"></div>
+                    </div>
+                    <div id="question-counter">Question 1 of 15</div>
+                </div>
+
+                <div id="question-container">
+                    <!-- Questions will be loaded here dynamically -->
+                </div>
+
+                <div class="button-container">
+                    <button id="prev-btn" class="btn btn-outline" disabled>Previous</button>
+                    <button id="next-btn" class="btn btn-primary">Next</button>
+                </div>
+            </div>
+
+            <div id="results-container" class="section">
+                <h2>Your Career Profile</h2>
+                <p>Based on your responses, here are your strongest career aptitudes:</p>
+                
+                <div class="chart-container">
+                    <canvas id="results-chart"></canvas>
+                </div>
+
+                <div id="career-recommendations">
+                    <h3>Recommended Career Paths</h3>
+                    <div id="recommendations-list"></div>
+                </div>
+
+                <button id="restart-quiz" class="btn btn-primary">Retake Quiz</button>
+                <a href="dashboard.html" class="btn btn-outline">Go to Dashboard</a>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-logo">
+                    <h2>PathFinder</h2>
+                    <p>Guiding your career journey</p>
+                </div>
+                <div class="footer-links">
+                    <h3>Quick Links</h3>
+                    <ul>
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="dashboard.html">Dashboard</a></li>
+                        <li><a href="contact.html">Contact</a></li>
+                        <li><a href="about.html">About Us</a></li>
+                    </ul>
+                </div>
+                <div class="footer-social">
+                    <h3>Connect With Us</h3>
+                    <div class="social-icons">
+                        <a href="#"><i class="fab fa-facebook"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-linkedin"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 PathFinder. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.1/chart.min.js"></script>
+    <script src="quiz.js"></script>
+</body>
+</html>
