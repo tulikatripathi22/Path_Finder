@@ -15,6 +15,12 @@ document.addEventListener("DOMContentLoaded", () => {
     // Get URL parameters
     const urlParams = new URLSearchParams(window.location.search);
     const action = urlParams.get('action');
+    const redirect = urlParams.get('redirect');
+    
+    // Store redirect URL if present
+    if (redirect) {
+        localStorage.setItem("redirectAfterLogin", redirect);
+    }
     
     // Switch to sign up mode if requested
     if (action === 'signup') {
@@ -86,6 +92,11 @@ signUpForm.addEventListener("submit", (e) => {
     users.push(newUser);
     localStorage.setItem("users", JSON.stringify(users));
     
+    // Set as logged in
+    localStorage.setItem("isLoggedIn", "true");
+    localStorage.setItem("username", username);
+    localStorage.setItem("email", email);
+    
     // Show success message
     signupError.textContent = "Account created successfully!";
     signupError.style.color = "green";
@@ -93,12 +104,12 @@ signUpForm.addEventListener("submit", (e) => {
     // Clear form
     signUpForm.reset();
     
-    // Switch to sign in form after a delay
+    // Redirect to dashboard or stored redirect URL
+    const redirectUrl = localStorage.getItem("redirectAfterLogin") || "dashboard.html";
+    
     setTimeout(() => {
-        container.classList.remove("sign-up-mode");
-        signupError.textContent = "";
-        signupError.style.color = "#ff3860";
-    }, 2000);
+        window.location.href = redirectUrl;
+    }, 1500);
 });
 
 // Sign In Form Submission
@@ -121,19 +132,21 @@ signInForm.addEventListener("submit", (e) => {
         return;
     }
     
-    // Save login status
-    localStorage.setItem("loggedInUser", JSON.stringify({
-        username: user.username,
-        email: user.email
-    }));
+    // Save login status - set variables needed by dashboard.js
+    localStorage.setItem("isLoggedIn", "true");
+    localStorage.setItem("username", user.username);
+    localStorage.setItem("email", user.email);
     
     // Show success message
     signinError.textContent = "Login successful!";
     signinError.style.color = "green";
     
-    // Redirect to home page after a delay
+    // Redirect to dashboard or stored redirect URL
+    const redirectUrl = localStorage.getItem("redirectAfterLogin") || "dashboard.html";
+    localStorage.removeItem("redirectAfterLogin"); // Clear the redirect after using it
+    
     setTimeout(() => {
-        window.location.href = "home.html"; // Change to your home page file name
+        window.location.href = redirectUrl;
     }, 1500);
 });
 
@@ -154,10 +167,11 @@ function hashPassword(password) {
 
 // Check if user is already logged in
 function checkLoggedInStatus() {
-    const loggedInUser = JSON.parse(localStorage.getItem("loggedInUser"));
-    if (loggedInUser) {
-        // User is already logged in, redirect to home page
-        window.location.href = "home.html"; // Change to your home page file name
+    if (localStorage.getItem("isLoggedIn") === "true") {
+        // User is already logged in, redirect to dashboard or stored redirect URL
+        const redirectUrl = localStorage.getItem("redirectAfterLogin") || "dashboard.html";
+        localStorage.removeItem("redirectAfterLogin"); // Clear the redirect after using it
+        window.location.href = redirectUrl;
     }
 }
 

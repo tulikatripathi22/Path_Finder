@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - PathFinder</title>
+    <link rel="stylesheet" href="dashboard.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.1/chart.min.js"></script>
+</head>
+<body>
+    <header>
+        <nav>
+            <div class="logo">
+                <h1>PathFinder</h1>
+            </div>
+            <div class="nav-links">
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="dashboard.html" class="active">Dashboard</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                </ul>
+            </div>
+            <div class="auth-buttons">
+                <a href="#" id="logout-btn" class="btn btn-outline">Logout</a>
+            </div>
+            <div class="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </nav>
+    </header>
+
+    <main class="dashboard-container">
+        <div class="sidebar">
+            <div class="user-profile">
+                <div class="avatar">
+                    <i class="fas fa-user"></i>
+                </div>
+                <h3 id="user-name">Loading...</h3>
+                <p id="user-email">Loading...</p>
+            </div>
+            <div class="dashboard-nav">
+                <ul>
+                    <li class="active" data-section="results-section">
+                        <i class="fas fa-chart-pie"></i>
+                        <span>My Results</span>
+                    </li>
+                    <li data-section="career-section">
+                        <i class="fas fa-briefcase"></i>
+                        <span>Career Paths</span>
+                    </li>
+                    <li data-section="resources-section">
+                        <i class="fas fa-book"></i>
+                        <span>Resources</span>
+                    </li>
+                </ul>
+            </div>
+            <div class="action-buttons">
+                <a href="quiz.html" class="btn btn-primary">Take Quiz Again</a>
+            </div>
+        </div>
+
+        <div class="dashboard-content">
+            <!-- Welcome Message -->
+            <div class="welcome-banner">
+                <h2>Welcome to Your Career Dashboard</h2>
+                <p>Track your career assessment results and explore recommended career paths tailored to your profile.</p>
+            </div>
+
+            <!-- Results Section -->
+            <section id="results-section" class="dashboard-section active">
+                <div class="section-header">
+                    <h2>Quiz Results</h2>
+                    <p>Based on your most recent assessment on <span id="last-quiz-date">Loading...</span></p>
+                </div>
+
+                <div class="results-overview">
+                    <div class="chart-container">
+                        <canvas id="results-chart"></canvas>
+                    </div>
+                    <div class="results-summary">
+                        <h3>Your Top Categories</h3>
+                        <ul id="top-categories">
+                            <li class="loading-placeholder">Loading categories...</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="results-history">
+                    <h3>Previous Results</h3>
+                    <div id="previous-results">
+                        <p class="loading-placeholder">Loading previous results...</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Career Paths Section -->
+            <section id="career-section" class="dashboard-section">
+                <div class="section-header">
+                    <h2>Recommended Career Paths</h2>
+                    <p>Based on your assessment results and interests</p>
+                </div>
+
+                <div id="recommended-careers">
+                    <div class="loading-placeholder career-card">Loading careers...</div>
+                </div>
+
+                <div class="career-exploration">
+                    <h3>Explore More Careers</h3>
+                    <div class="category-tabs">
+                        <button class="category-tab active" data-category="analytical">Analytical</button>
+                        <button class="category-tab" data-category="creative">Creative</button>
+                        <button class="category-tab" data-category="social">Social</button>
+                        <button class="category-tab" data-category="organizational">Organizational</button>
+                        <button class="category-tab" data-category="practical">Practical</button>
+                    </div>
+                    <div class="tab-content" id="category-careers">
+                        <div class="loading-placeholder">Loading category careers...</div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Resources Section -->
+            <section id="resources-section" class="dashboard-section">
+                <div class="section-header">
+                    <h2>Career Resources</h2>
+                    <p>Tools and guides to help you succeed</p>
+                </div>
+
+                <div class="resources-grid">
+                    <div class="resource-card">
+                        <i class="fas fa-file-alt"></i>
+                        <h3>Resume Templates</h3>
+                        <p>Professionally designed templates tailored to your career path</p>
+                        <a href="#" class="btn btn-outline">View Templates</a>
+                    </div>
+                    <div class="resource-card">
+                        <i class="fas fa-handshake"></i>
+                        <h3>Interview Preparation</h3>
+                        <p>Common questions and strategies for your field</p>
+                        <a href="#" class="btn btn-outline">Prepare Now</a>
+                    </div>
+                    <div class="resource-card">
+                        <i class="fas fa-laptop-code"></i>
+                        <h3>Skill Building</h3>
+                        <p>Online courses and certifications to enhance your profile</p>
+                        <a href="#" class="btn btn-outline">Explore Courses</a>
+                    </div>
+                    <div class="resource-card">
+                        <i class="fas fa-users"></i>
+                        <h3>Networking Events</h3>
+                        <p>Connect with professionals in your target industries</p>
+                        <a href="#" class="btn btn-outline">Find Events</a>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-logo">
+                    <h2>PathFinder</h2>
+                    <p>Guiding your career journey</p>
+                </div>
+                <div class="footer-links">
+                    <h3>Quick Links</h3>
+                    <ul>
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="dashboard.html">Dashboard</a></li>
+                        <li><a href="contact.html">Contact</a></li>
+                        <li><a href="about.html">About Us</a></li>
+                    </ul>
+                </div>
+                <div class="footer-social">
+                    <h3>Connect With Us</h3>
+                    <div class="social-icons">
+                        <a href="#"><i class="fab fa-facebook"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-linkedin"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 PathFinder. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="dashboard.js"></script>
+</body>
+</html>
