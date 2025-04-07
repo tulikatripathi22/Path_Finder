@@ -15,6 +15,38 @@ body {
     align-items: center;
     color: #333;
     padding: 20px;
+    position: relative;
+    overflow-x: hidden;
+}
+
+/* Subtle floating background elements */
+body:before, body:after {
+    content: "";
+    position: absolute;
+    width: 300px;
+    height: 300px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, rgba(71, 118, 230, 0.1), rgba(142, 84, 233, 0.1));
+    z-index: -1;
+    animation: floatBubble 20s infinite alternate ease-in-out;
+}
+
+body:before {
+    top: -100px;
+    left: -100px;
+    animation-delay: 0s;
+}
+
+body:after {
+    bottom: -100px;
+    right: -100px;
+    animation-delay: -10s;
+}
+
+@keyframes floatBubble {
+    0% { transform: translate(0, 0) scale(1); opacity: 0.5; }
+    50% { transform: translate(50px, 25px) scale(1.2); opacity: 0.7; }
+    100% { transform: translate(10px, 50px) scale(1); opacity: 0.5; }
 }
 
 .container {
@@ -26,12 +58,21 @@ body {
     padding: 40px;
     position: relative;
     overflow: hidden;
+    animation: containerAppear 0.8s ease-out forwards;
+    background-image: 
+        radial-gradient(circle at 10% 90%, rgba(71, 118, 230, 0.03) 20%, transparent 40%),
+        radial-gradient(circle at 90% 10%, rgba(142, 84, 233, 0.03) 20%, transparent 40%);
+}
+
+@keyframes containerAppear {
+    from { transform: translateY(30px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
 }
 
 .quiz-wrapper .container {
-    max-width: 1100px; /* Increase width */
+    max-width: 1100px;
     width: 80%;
-    padding: 50px; /* Increase padding for more space inside */
+    padding: 50px;
 }
 
 .quiz-wrapper {
@@ -39,38 +80,68 @@ body {
     justify-content: center;
     align-items: center;
     flex-direction: column;
-    gap: 40px; /* Space between sections */
-    padding: 20px; /* Add some padding */
+    gap: 40px;
+    padding: 20px;
+    width: 100%;
 }
 
 .footer-links ul {
-    list-style-type: disc; /* Adds dot (•) */
-    list-style-position: inside; /* Positions the dot inside */
-    padding-left: 15px; /* Adjust spacing */
+    list-style-type: disc;
+    list-style-position: inside;
+    padding-left: 15px;
 }
 
 .footer-links ul li {
-    margin-bottom: 10px; /* Add space between links */
+    margin-bottom: 10px;
+    position: relative;
+    transition: transform 0.3s ease;
+}
+
+.footer-links ul li:hover {
+    transform: translateX(5px);
 }
 
 .footer-links ul li a {
     text-decoration: none;
-    color: rgb(68, 68, 144); /* Makes text blue */
-    font-weight: bold; /* Optional: Makes text bold */
+    color: rgb(34 55 178 / 82%);
+    font-weight: bold;
+    position: relative;
+    transition: all 0.3s ease;
 }
 
+.footer-links ul li a:after {
+    content: "";
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background: linear-gradient(to right, #4776E6, #8E54E9);
+    transition: width 0.3s ease;
+}
+
+.footer-links ul li a:hover:after {
+    width: 100%;
+}
 
 .section {
     display: none;
     opacity: 0;
     transform: translateY(20px);
-    transition: opacity 0.4s ease, transform 0.4s ease;
+    transition: opacity 0.6s ease, transform 0.6s ease;
+    width: 100%;
 }
 
 .section.active {
     display: block;
     opacity: 1;
     transform: translateY(0);
+    animation: sectionEnter 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+@keyframes sectionEnter {
+    0% { opacity: 0; transform: translateY(20px); }
+    100% { opacity: 1; transform: translateY(0); }
 }
 
 h1, h2, h3 {
@@ -83,6 +154,7 @@ p {
     margin-bottom: 30px;
     line-height: 1.6;
     text-align: center;
+    animation: fadeIn 0.8s ease;
 }
 
 /* Button Styles */
@@ -94,17 +166,38 @@ p {
     font-size: 16px;
     font-weight: 500;
     transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+    z-index: 1;
 }
 
 .primary-btn {
     background: linear-gradient(to right, #4776E6, #8E54E9);
     color: white;
-    box-shadow: 0 4px 15px rgba(71, 118, 230, 0.3);
+    box-shadow: 0 4px 15px rgba(67, 97, 238, 0.2);
 }
 
 .primary-btn:hover {
     transform: translateY(-3px);
-    box-shadow: 0 7px 20px rgba(71, 118, 230, 0.4);
+    box-shadow: 0 7px 20px rgba(67, 97, 238, 0.3);
+}
+
+.primary-btn:before {
+    content: "";
+    position: absolute;
+    width: 30px;
+    height: 100%;
+    top: 0;
+    left: -30px;
+    background: linear-gradient(to right, transparent, rgba(255, 255, 255, 0.3), transparent);
+    animation: shineEffect 3s infinite;
+    z-index: -1;
+}
+
+@keyframes shineEffect {
+    0% { left: -30px; }
+    20% { left: 110%; }
+    100% { left: 110%; }
 }
 
 .primary-btn:disabled {
@@ -114,14 +207,22 @@ p {
     box-shadow: none;
 }
 
+.primary-btn:disabled:before {
+    display: none;
+}
+
 .secondary-btn {
     background-color: transparent;
     color: #4776E6;
     border: 2px solid #4776E6;
+    position: relative;
+    transition: all 0.3s ease;
+    overflow: hidden;
 }
 
 .secondary-btn:hover {
-    background-color: rgba(71, 118, 230, 0.1);
+    background-color: rgba(67, 97, 238, 0.1);
+    box-shadow: 0 5px 15px rgba(67, 97, 238, 0.1);
 }
 
 .secondary-btn:disabled {
@@ -139,15 +240,44 @@ p {
 /* Landing Page */
 #landing-page {
     text-align: center;
+    position: relative;
+}
+
+#landing-page:before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: 
+        radial-gradient(circle at 20% 20%, rgba(71, 118, 230, 0.03) 10%, transparent 30%),
+        radial-gradient(circle at 80% 80%, rgba(142, 84, 233, 0.03) 10%, transparent 30%);
+    z-index: -1;
+    opacity: 0.7;
+    animation: bgPulse 15s infinite alternate ease-in-out;
+}
+
+@keyframes bgPulse {
+    0% { opacity: 0.5; }
+    50% { opacity: 0.8; }
+    100% { opacity: 0.5; }
 }
 
 #landing-page h1 {
     font-size: 36px;
-    background: linear-gradient(to right, #4776E6, #8E54E9);
+    background: linear-gradient(to right, #2621cadb, #2e30a0);
     -webkit-background-clip: text;
     background-clip: text;
     color: transparent;
     margin-bottom: 30px;
+    position: relative;
+    animation: titleEffect 5s infinite alternate ease-in-out;
+}
+
+@keyframes titleEffect {
+    0% { opacity: 0.9; }
+    100% { opacity: 1; }
 }
 
 #landing-page button {
@@ -160,6 +290,7 @@ p {
 /* Quiz Section */
 .progress-container {
     margin-bottom: 30px;
+    position: relative;
 }
 
 .progress-bar {
@@ -168,24 +299,56 @@ p {
     border-radius: 5px;
     margin-bottom: 10px;
     overflow: hidden;
+    position: relative;
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
 }
 
 .progress {
     height: 100%;
     background: linear-gradient(to right, #4776E6, #8E54E9);
     width: 0%;
-    transition: width 0.5s ease;
+    transition: width 0.5s cubic-bezier(0.22, 0.61, 0.36, 1);
     border-radius: 5px;
+    position: relative;
+}
+
+.progress:after {
+    content: "";
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 5px;
+    height: 100%;
+    background-color: rgba(255, 255, 255, 0.7);
+    animation: progressPulse 1.5s infinite;
+}
+
+@keyframes progressPulse {
+    0% { opacity: 1; }
+    50% { opacity: 0.3; }
+    100% { opacity: 1; }
 }
 
 #question-counter {
     text-align: right;
     font-size: 14px;
     color: #666;
+    animation: counterFade 0.5s ease;
+}
+
+@keyframes counterFade {
+    from { opacity: 0; transform: translateY(5px); }
+    to { opacity: 1; transform: translateY(0); }
 }
 
 .question {
     margin-bottom: 25px;
+    animation: questionAppear 0.6s ease;
+}
+
+@keyframes questionAppear {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
 }
 
 .question-title {
@@ -208,16 +371,59 @@ p {
     border-radius: 10px;
     cursor: pointer;
     transition: all 0.3s ease;
+    position: relative;
+    background-color: #ffffff;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+    animation: optionAppear 0.5s ease forwards;
+}
+
+.option:nth-child(1) { animation-delay: 0.1s; }
+.option:nth-child(2) { animation-delay: 0.2s; }
+.option:nth-child(3) { animation-delay: 0.3s; }
+.option:nth-child(4) { animation-delay: 0.4s; }
+
+@keyframes optionAppear {
+    from { opacity: 0.7; transform: translateY(5px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Subtle background animation for options */
+.option:before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    border-radius: 8px;
+    background: 
+        radial-gradient(circle at 10% 90%, rgba(71, 118, 230, 0.03) 10%, transparent 30%),
+        radial-gradient(circle at 90% 10%, rgba(142, 84, 233, 0.03) 10%, transparent 30%);
+    z-index: -1;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.option:hover:before {
+    opacity: 1;
 }
 
 .option:hover {
     border-color: #4776E6;
-    background-color: rgba(71, 118, 230, 0.05);
+    transform: translateY(-2px);
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.08);
 }
 
 .option.selected {
     border-color: #4776E6;
-    background-color: rgba(71, 118, 230, 0.1);
+    background-color: rgba(67, 97, 238, 0.05);
+    animation: gentlePulse 0.3s ease;
+}
+
+@keyframes gentlePulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.02); }
+    100% { transform: scale(1); }
 }
 
 .option input {
@@ -236,6 +442,16 @@ p {
 .chart-container {
     margin: 30px 0;
     height: 350px;
+    position: relative;
+    animation: chartAppear 1s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    background: linear-gradient(to bottom right, rgba(71, 118, 230, 0.02), rgba(142, 84, 233, 0.02));
+    border-radius: 10px;
+    padding: 10px;
+}
+
+@keyframes chartAppear {
+    from { opacity: 0; transform: scale(0.95); }
+    to { opacity: 1; transform: scale(1); }
 }
 
 #career-recommendations {
@@ -243,12 +459,31 @@ p {
     padding: 20px;
     background-color: #f8f9fa;
     border-radius: 10px;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+    animation: recommendationsAppear 1s ease;
+    background-image: 
+        radial-gradient(circle at 5% 95%, rgba(71, 118, 230, 0.05) 10%, transparent 30%),
+        radial-gradient(circle at 95% 5%, rgba(142, 84, 233, 0.05) 10%, transparent 30%);
+}
+
+@keyframes recommendationsAppear {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
 }
 
 .recommendation-item {
     margin-bottom: 20px;
     padding-bottom: 20px;
     border-bottom: 1px solid #eee;
+    position: relative;
+    z-index: 1;
+    transition: transform 0.3s ease;
+}
+
+.recommendation-item:hover {
+    transform: translateY(-3px);
 }
 
 .recommendation-item:last-child {
@@ -261,19 +496,30 @@ p {
     font-weight: 600;
     color: #4776E6;
     margin-bottom: 8px;
+    position: relative;
+    display: inline-block;
+    transition: all 0.3s ease;
 }
 
 .recommendation-desc {
     font-size: 15px;
     line-height: 1.5;
+    position: relative;
+    z-index: 1;
 }
 
 #restart-quiz {
     margin: 30px auto 0;
     display: block;
+    animation: buttonPulse 2s infinite alternate ease-in-out;
 }
 
-/* Animations */
+@keyframes buttonPulse {
+    0% { transform: scale(1); }
+    100% { transform: scale(1.03); }
+}
+
+/* Enhanced Animations */
 @keyframes fadeIn {
     from {
         opacity: 0;
@@ -285,31 +531,38 @@ p {
     }
 }
 
-@keyframes pulse {
-    0% {
-        transform: scale(1);
-    }
-    50% {
-        transform: scale(1.05);
-    }
-    100% {
-        transform: scale(1);
-    }
-}
-
-.option.selected {
-    animation: pulse 0.3s ease;
-}
-
-.chart-animation {
-    animation: fadeIn 1s ease;
-}
-
 .recommendation-item {
     opacity: 0;
     transform: translateY(20px);
 }
 
 .recommendation-item.visible {
-    animation: fadeIn 0.5s ease forwards;
+    animation: itemReveal 0.6s ease forwards;
+}
+
+@keyframes itemReveal {
+    0% { opacity: 0; transform: translateY(20px); }
+    100% { opacity: 1; transform: translateY(0); }
+}
+
+/* Page transitions */
+.page-transition {
+    animation: pageTransition 0.8s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+}
+
+@keyframes pageTransition {
+    0% { transform: translateX(-30px); opacity: 0; }
+    100% { transform: translateX(0); opacity: 1; }
+}
+
+/* Subtle background animation for the entire quiz */
+@keyframes gradientMovement {
+    0% { background-position: 0% 0%; }
+    50% { background-position: 100% 100%; }
+    100% { background-position: 0% 0%; }
+}
+
+.container {
+    background-size: 400% 400%;
+    animation: gradientMovement 15s ease infinite;
 }
