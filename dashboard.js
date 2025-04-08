@@ -1,30 +1,18 @@
 document.addEventListener('DOMContentLoaded', function() {
-    // Check if user is logged in, redirect to signin page if not
     if (!isLoggedIn()) {
         window.location.href = 'signin.html?redirect=dashboard.html';
         return;
     }
-
-    // Initialize UI components
     initUI();
-    
-    // Load user data and quiz results
     loadUserData();
     loadQuizResults();
     loadCareerCategories();
-    
-    // Event listeners for dashboard navigation
     setupEventListeners();
 });
-
-// Check if user is logged in
 function isLoggedIn() {
     return localStorage.getItem('isLoggedIn') === 'true';
 }
-
-// Initialize UI components
 function initUI() {
-    // Toggle mobile navigation
     const hamburger = document.querySelector('.hamburger');
     const navLinks = document.querySelector('.nav-links');
     
@@ -35,55 +23,32 @@ function initUI() {
         });
     }
 }
-
-// Load user data from localStorage
 function loadUserData() {
     const username = localStorage.getItem('username') || 'User';
     const email = localStorage.getItem('email') || 'user@example.com';
-    
     document.getElementById('user-name').textContent = username;
     document.getElementById('user-email').textContent = email;
 }
-
-// Load quiz results from localStorage
 function loadQuizResults() {
-    // Check if user has taken a quiz
     const hasQuizResults = localStorage.getItem('quizResults');
-    
     if (!hasQuizResults) {
-        // Show empty state if no quiz results
         showEmptyState();
         return;
     }
-    
     try {
-        // Parse quiz results
         const quizResults = JSON.parse(localStorage.getItem('quizResults'));
         const lastQuizDate = localStorage.getItem('lastQuizDate') || new Date().toLocaleDateString();
-        
-        // Update date display
         document.getElementById('last-quiz-date').textContent = lastQuizDate;
-        
-        // Display results chart
         createResultsChart(quizResults);
-        
-        // Display top categories
         displayTopCategories(quizResults);
-        
-        // Show career recommendations
         displayCareerRecommendations(quizResults);
-        
-        // Load quiz history
         loadQuizHistory();
     } catch (error) {
         console.error('Error loading quiz results:', error);
         showEmptyState();
     }
 }
-
-// Show empty state if no quiz results
 function showEmptyState() {
-    // Update chart container
     const chartContainer = document.querySelector('.chart-container');
     chartContainer.innerHTML = `
         <div class="empty-state">
@@ -93,22 +58,16 @@ function showEmptyState() {
             <a href="quiz.html" class="btn btn-primary">Take Quiz Now</a>
         </div>
     `;
-    
-    // Update top categories
     document.getElementById('top-categories').innerHTML = `
         <div class="empty-state">
             <p>Take a quiz to discover your career categories</p>
         </div>
     `;
-    
-    // Update previous results
     document.getElementById('previous-results').innerHTML = `
         <div class="empty-state">
             <p>No previous quiz results available</p>
         </div>
     `;
-    
-    // Update recommended careers
     document.getElementById('recommended-careers').innerHTML = `
         <div class="empty-state">
             <i class="fas fa-briefcase"></i>
@@ -118,25 +77,16 @@ function showEmptyState() {
         </div>
     `;
 }
-
-// Create results chart
 function createResultsChart(results) {
     const ctx = document.getElementById('results-chart').getContext('2d');
-    
-    // Sort categories by percentage (descending)
     const sortedCategories = Object.entries(results)
         .sort((a, b) => b[1] - a[1])
-        .slice(0, 5); // Get top 5 categories
-    
+        .slice(0, 5); 
     const labels = sortedCategories.map(category => category[0]);
     const data = sortedCategories.map(category => category[1]);
-    
-    // Generate colors for the chart
     const backgroundColors = [
         '#4285F4', '#EA4335', '#FBBC05', '#34A853', '#8E24AA'
     ];
-    
-    // Create chart
     new Chart(ctx, {
         type: 'bar',
         data: {
